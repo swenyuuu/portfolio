@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>REINVENT ME - The begining</title>
+  <style>
+    @font-face {
+      font-family: 'Unifont';
+      src: url('fonts/unifont.otf') format('opentype');
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden; /*  防止滾動條拖出背景 */
+        }
+
+    body {
+        
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: black;
+        color: #00ffcc;
+        font-family: 'Unifont', monospace;
+        font-size: 18px;
+        position: relative;
+        overflow-x: hidden;
+        min-height: 100vh;
+        box-sizing: border-box;
+        }
+ 
+
+    .loading-container {
+      width: 80%;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+
+    .loading-label {
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    .loading-label-inside {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 16px;
+      font-weight: bold;
+      color: #3e3a39;
+      font-family: 'Unifont', monospace;
+      pointer-events: none;
+    }
+
+    .loading-bar-container {
+      position: relative;
+      display: flex;
+      gap: 2px;
+      width: 100%;
+      height: 24px;
+      background: #111;
+      border: 1px solid #00ffcc;
+      padding: 2px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      overflow: visible;
+    }
+
+    .pixel-cell {
+      flex: 1;
+      background: #111;
+      transition: background 0.2s;
+      box-shadow: inset 0 0 1px #000;
+    }
+
+    .pixel-cell.active {
+      background: #00ffcc;
+    }
+
+    .blink {
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+
+    .turtle {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      width: 40px;
+      height: auto;
+    }
+
+    .percent-text {
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    .console {
+      display: none;
+      width: 50%;
+      max-width: 700px;
+      line-height: 1.4;
+      background-color: rgba(62, 58, 57, 0.5);  
+      color: #eae6d5;                      /* 米白字，復古螢幕風格 */
+      padding: 16px 20px;
+      border: 2px solid #c2aa71;           /* 暗金色邊框 */
+      margin-top: 16px;
+      font-family: 'Unifont', monospace;     /* 等寬像素感字體 */
+      font-size: 18px;
+      white-space: pre-wrap;
+
+      /* 陰影效果：像素位移感 */
+      box-shadow:
+        0 0 0 1px #000 inset,             /* 黑框像素內邊 */
+        2px 2px 0 #000,                   /* 像素陰影效果 */
+        0 0 10px rgba(0, 0, 0, 0.5);      /* 輕柔模糊陰影 */
+
+      background-image: repeating-linear-gradient(
+        0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 1px,
+        transparent 1px, transparent 4px
+      );
+    }
+
+    
+    
+    #turtle-link {
+      position: fixed;
+      left: 20%;     /* 左下距離 */
+      bottom: 40px;   /* 底部距離 */
+      width: 100px;    /* 或你想要的大小 */
+      height: auto;
+      cursor: pointer;
+      display: none;  /* 一開始先隱藏，等背景換好再出現 */
+      z-index: 111;
+    }
+
+
+    #ending-text {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      line-height: 1.25; 
+      vertical-align: top;
+    }
+
+    #fade-out {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: black; /* 或可用你背景色 */
+      opacity: 0;
+      pointer-events: none;
+      z-index: 2000;
+      transition: opacity 0.6s ease;
+    }
+
+
+  </style>
+</head>
+
+<body>
+  <div class="loading-container">
+    <div class="loading-bar-container" id="bar-container">
+      <img src="images/walking-turtle.gif" alt="turtle" class="turtle" id="turtle">
+      <div class="loading-label-inside" id="loading-label"></div> 
+    </div>
+    <div class="percent-text" id="percent">0%</div>
+  </div>
+
+  <div class="console" id="ending-box">
+    <div id="ending-text"></div>
+  </div>
+  
+  <img id="turtle-link" src="images/turtle.png" alt="Turtle" title="出海看看" onclick="goToPortfolio()">
+  
+
+
+
+  
+
+  <script>
+    const fullText = `你已抵達 2025 - REINVENT ME 現在時點。\n這不是終點，也不是答案。\n你只是擁有了再次塑造自己的機會。\n\n在 AI 崛起的年代，具備重塑自己的能力，能使你在人生的海洋之中走得更遠。\n\n更廣闊的世界還在明天等著我們。\n`;
+  
+    const barContainer = document.getElementById('bar-container');
+    const percent = document.getElementById('percent');
+    const turtle = document.getElementById('turtle');
+    const textContainer = document.getElementById('ending-text');
+    const endingBox = document.getElementById('ending-box');
+    const loadingLabel = document.getElementById('loading-label');
+  
+    // loading...打字效果
+    const loadingText = 'loading...';
+    let charIndex = 0;
+    const typeInterval = setInterval(() => {
+      loadingLabel.textContent += loadingText.charAt(charIndex);
+      charIndex++;
+      if (charIndex >= loadingText.length){
+        clearInterval(typeInterval);
+        loadingLabel.classList.add('blink'); // 閃爍
+      }
+    }, 80);
+  
+    // 建立 pixel 格子
+    const CELL_COUNT = 40;
+    const cells = [];
+    for (let i = 0; i < CELL_COUNT; i++) {
+      const cell = document.createElement('div');
+      cell.classList.add('pixel-cell');
+      barContainer.appendChild(cell);
+      cells.push(cell);
+    }
+  
+    let progress = 0;
+  
+    // === 第1階段：慢慢跑到66%（大約第26格） ===
+    const slowInterval = setInterval(() => {
+      const percentValue = Math.floor((progress / CELL_COUNT) * 100);
+      percent.textContent = `${percentValue}%`;
+      turtle.style.left = `calc(${percentValue}% - 20px)`;
+  
+      if (progress < 26) {
+        cells[progress].classList.add('active');
+        progress++;
+      } else {
+        clearInterval(slowInterval);
+  
+        // === 卡住3秒 ===
+        setTimeout(() => {
+          // === 第2階段：快速跑到100% ===
+          const fastInterval = setInterval(() => {
+            const percentValue = Math.floor((progress / CELL_COUNT) * 100);
+            percent.textContent = `${percentValue}%`;
+            turtle.style.left = `calc(${percentValue}% - 20px)`;
+  
+            if (progress < CELL_COUNT) {
+              cells[progress].classList.add('active');
+              progress++;
+            } else {
+              clearInterval(fastInterval);
+  
+              // === loading結束後處理 ===
+              setTimeout(() => {
+                // 隱藏 loading bar + 文字
+                loadingLabel.style.display = 'none';
+                document.querySelector('.loading-container').style.display = 'none';
+  
+                // 換上像素海岸背景
+                document.body.style.backgroundImage = "url('images/coast.png')";
+                document.body.style.backgroundSize = "contain";
+                document.body.style.backgroundRepeat = "no-repeat";
+                document.body.style.backgroundPosition = "center";
+                
+                //顯示烏龜
+                document.getElementById('turtle-link').style.display = 'block';
+  
+                // 顯示 console + 打字動畫
+                setTimeout(() => {
+                  endingBox.style.display = 'block';
+  
+                  let i = 0;
+                  const speed = 25;
+                  const typing = setInterval(() => {
+                    textContainer.textContent += fullText.charAt(i);
+                    i++;
+                    if (i === fullText.length) {
+                      clearInterval(typing);
+                      const btn = document.getElementById('go-portfolio');
+                      btn.style.display = 'inline-block';
+                      setTimeout(() => btn.classList.add('show'), 50); // 小延遲
+                    }
+                  }, speed);
+                }, 1500); // 稍微延遲讓畫面過場自然
+              }, 200); // loading 結束停頓
+            }
+          }, 50); // 快速衝刺
+        }, 3000); // 停 3 秒
+      }
+    }, 120); // 慢速前進
+
+    function goToPortfolio() {
+      const fade = document.getElementById('fade-out');
+      fade.style.opacity = '1';
+      fade.style.pointerEvents = 'all';
+      
+      // 等 600ms 動畫結束後再跳轉
+      setTimeout(() => {
+        window.location.href = 'portfolio.html';
+      }, 600);
+    }
+
+
+  </script>
+  <div id="fade-out"></div>
+    
+</body>
+</html>

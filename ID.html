@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>REINVENT ME - Your ID card</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    @font-face {
+      font-family: 'Unifont';
+      src: url('fonts/unifont.otf') format('opentype');
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #2f2f2f;
+      color: #00ffcc;
+      font-family: 'Unifont', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+
+    }
+
+    .glitch-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') center center / cover;
+      opacity: 0.03;
+      z-index: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px;
+      gap: 40px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 1px solid #00ffcc;
+      border-radius: 12px;
+      max-width: 1200px;
+    }
+
+    .radar-chart-container {
+      width: 350px;
+      height: 350px;
+    }
+
+    .radar-chart-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .character-image-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 40px;
+    }
+
+    .character-image {
+      width: 250px;
+      height: 250px;
+      background-image: url('images/大頭.png');
+      background-size: cover;
+      background-position: center;
+      border-radius: 16px;
+      box-shadow: 0 0 20px #00ffcc44;
+    }
+
+    .character-name {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #00ffcc;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #00ffcc;
+      width: 0;
+      animation: typing 3s steps(30, end) forwards, blink 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from {
+        width: 0
+      }
+
+      to {
+        width: 100%
+      }
+    }
+
+    @keyframes blink {
+      0% {
+        border-color: transparent
+      }
+
+      50% {
+        border-color: #00ffcc
+      }
+
+      100% {
+        border-color: transparent
+      }
+    }
+
+    .intro {
+      max-width: 500px;
+    }
+
+    .intro h1 {
+      font-size: 36px;
+      color: #00ffcc;
+    }
+
+    .intro p {
+      font-size: 18px;
+      margin: 12px 0;
+      line-height: 1.6em;
+    }
+
+    .skills {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: nowrap;
+      /* 不換行 */
+      position: relative;
+      overflow: visible;
+    }
+
+    .skill {
+      background: #00ffcc;
+      color: black;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 18px;
+      text-align: center;
+      position: relative;
+      cursor: help;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .skill:hover .tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-110%);
+    }
+
+    .tooltip {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: #000;
+      color: #00ffcc;
+      padding: 6px 10px;
+      border: 1px solid #00ffcc;
+      border-radius: 5px;
+      font-size: 14px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .special-traits {
+      margin-top: 40px;
+      font-size: 18px;
+    }
+
+    .special-traits h3 {
+      font-size: 24px;
+      color: #00ffcc;
+      margin-bottom: 16px;
+    }
+
+
+    .choice-button {
+      background: transparent;
+      color: #00ffcc;
+      border: 1px solid #00ffcc;
+      padding: 10px 20px;
+      margin-top: 30px;
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+      /* 只過渡顏色和背景 */
+      z-index: 10;
+      /* 確保按鈕在背景圖之上 */
+      position: relative;
+      /* 給定定位方便控制 */
+
+    }
+
+    .choice-button:hover {
+      background: #00ffcc;
+      color: black;
+      border-color: #00ffcc;
+    }
+
+    .core-skill-title {
+      font-size: 24px;
+      color: #00ffcc;
+      margin-bottom: 16px;
+    }
+
+    .intro h1 {
+      font-size: 24px;
+      color: #00ffcc;
+      margin-bottom: 16px;
+    }
+
+    .skill i {
+      margin-right: 8px;
+      /* 使圖示與文字有間距 */
+      font-size: 20px;
+      /* 設定圖示的大小 */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="glitch-bg"></div>
+  <div class="container">
+
+    <!-- 左：雷達圖 -->
+    <div class="radar-chart-container">
+      <canvas id="radarChart"></canvas>
+    </div>
+    <!-- 中：人物形象 -->
+    <div class="character-image-box">
+      <div class="character-name">ID : Swen You</div>
+      <div class="character-image"></div>
+
+    </div>
+    <!-- 右：角色介紹與技能 -->
+    <div class="intro">
+      <h1>Core Value:</h1>
+      <p>每一個轉折，都是我對自我的再創造！</p>
+
+      <h2 class="core-skill-title">Core Skills:</h2>
+      <div class="skills">
+        <div class="skill"><i class="fas fa-lightbulb"></i>解決問題
+          <div class="tooltip">迅速找出盲點與突破口</div>
+        </div>
+        <div class="skill"><i class="fas fa-utensils"></i>黑暗料理
+          <div class="tooltip">雖然是黑暗料理但意外地可以補血</div>
+        </div>
+        <div class="skill"><i class="fas fa-book"></i>自我學習
+          <div class="tooltip">自我再創造不可或缺的技能</div>
+        </div>
+      </div>
+      <div class="special-traits">
+        <h3>MBTI: </h3>
+        <p>INTP: "您呼叫的使用者正在奔向宇宙的盡頭。"</p>
+      </div>
+
+    </div>
+  </div>
+  <button class="choice-button" onclick="nextPage()">▶ 繼續探索</button>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+
+    var ctx = document.getElementById('radarChart').getContext('2d');
+    var radarChart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: ['實驗精神', '創造力', '抗壓性', '獨立思考', '細心'],
+        datasets: [{
+          label: '性格組成',
+          data: [80, 90, 70, 85, 75],
+          backgroundColor: 'rgba(0, 255, 204, 0.3)',
+          borderColor: 'rgba(0, 255, 204, 1)',
+          borderWidth: 2,
+          pointBackgroundColor: '#00ffcc'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          r: {
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20,
+              color: '#00ffcc',
+              backdropColor: 'transparent',
+              font: {
+                size: 14
+              }
+            },
+            grid: {
+              color: '#00ffcc44',
+              circular: true
+            },
+            angleLines: {
+              color: '#00ffcc66'
+            },
+            pointLabels: {
+              color: '#00ffcc',
+              font: {
+                size: 16
+              }
+            }
+          }
+        }
+      }
+    });
+
+    function nextPage() {
+      window.location.href = 'me.html';
+    }
+  </script>
+</body>
+
+</html>

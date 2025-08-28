@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>REINVENT ME - Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: 'Unifont', monospace;
+    }
+
+    .screen {
+      position: relative;
+      width: 90vw;
+      max-width: 1000px;
+      aspect-ratio: 4 / 3;
+    }
+
+    .bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      z-index: 0;
+    }
+
+    .icon {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 64px;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    .icon img {
+      width: 48px;
+      height: auto;
+      
+    }
+
+    .icon span {
+      margin-top: 4px;
+      font-size: 12px;
+      color: white;
+      text-shadow: 1px 1px black;
+      text-align: center;
+    }
+
+    /* icon 相對位置 */
+    #icon1 { top: 16%; left: 23%; }
+    #icon2 { top: 16%; left: 33%; }
+    #icon3 { top: 16%; left: 43%; }
+    #icon4 { top: 30%; left: 23%; }
+    #icon5 { top: 30%; left: 33%; }
+    #icon6 { top: 67%; left: 70%; }
+
+    /* ===== 視窗樣式 ===== */
+    .window {
+      position: absolute;
+      top: 100px;
+      left: 100px;
+      width: 800px;
+      background: #a9b7a2;
+      border: 2px solid #1f1f1f;
+      z-index: 10;
+      display: none;
+      box-shadow: 4px 4px #808080;
+    }
+
+    .title-bar {
+      background: #3a4b41 ;
+      color: #eae6d5;
+      padding: 4px 8px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .title-bar button {
+      background:  #bcbcab;
+      color: #1f1f1f;
+      border: 1px solid #444;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .window .content {
+      padding: 16px;
+      background: #dcd8c4;
+      color: #1f1f1f;
+      font-size: 14px;
+      /*height: 350px;*/
+      max-height: 70vh; /* 依螢幕高度自動限制 */
+      overflow-y: auto;  /* 超過就出現內部捲軸 */
+      scrollbar-color: #bcbcab #ccc; /* 捲軸顏色和背景 */
+      scrollbar-width: thin;      /* Firefox 自帶細捲軸 */
+
+    }
+
+
+
+    .img-row {
+      display: flex;
+      align-items: center;     /* 垂直置中 */
+      justify-content: flex-start;
+      gap: 20px;               /* 圖和文字間距 */
+      margin-bottom: 20px;     /* 每組之間的間距 */
+    }
+
+    .img-row img {
+      width: 80%;
+      max-width: 550px;        /* 可依需要限制最大寬度 */
+    }
+
+    .img-row span {
+      flex-shrink: 0;          /* 防止被擠壓 */
+      font-size: 14px;         /* 依你想要的字體大小 */
+      color: #1f1f1f;          /* 跟內容文字一致 */
+      width: 200px;
+      line-height: 1.4;
+    }
+
+    .video-crop {
+      width: 73%;
+      aspect-ratio: 4 / 3; /* 想要的寬高比，例如4:3 */
+      object-fit: cover;   /* 讓影片填滿並裁掉超出的部分 */
+    }
+
+    .video-bmi {
+      width: 38%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      object-position: bottom;
+      
+      
+    }
+
+
+    .module-block {
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed #999;
+    }
+
+    .media-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+     /* ===== blocks ===== */
+      .blocks-gallery {
+        display: flex;
+        flex-wrap: wrap;   /* 如果多圖就換行 */
+        gap: 10px;
+        margin: 12px 0;
+      }
+
+      .blocks-gallery img {
+        height: 100px;     /* 縮圖高度 */
+        cursor: pointer;
+        border: 2px solid #aaa;
+        transition: transform 0.2s;
+      }
+
+      .blocks-gallery img:hover {
+        transform: scale(1.05);
+      }
+
+      .blocks-gallery.with-text {
+        align-items: center;
+      }
+
+      /* Lightbox 样式 */
+      .lightbox {
+        position: fixed;
+        display: none;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.8);
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .lightbox img {
+        max-width: 90%;
+        max-height: 90%;
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: 40px;
+        right: 60px;
+        color: white;
+        font-size: 30px;
+        cursor: pointer;
+      }
+
+      /* 以後再弄section-title 先讓我偷懶一下*/
+      strong {
+        font-size: 18px;
+        display: inline-block;  /* 讓 strong 能吃 margin 的魔法*/
+        margin-bottom: 4px;
+        margin-top: 4px;
+      }
+
+
+
+    /* ===== 電源鍵 ===== */
+    #power-btn-area {
+        position: absolute;
+        width: 65px;   /* 根據電源鍵大小調整 */
+        height: 65px;
+        bottom: 46px;  /* 距離底部 */
+        right: 231px;   /* 距離右邊 */
+        cursor: pointer;
+        z-index: 2;
+        /* 對位後可以刪掉 */
+        /*border: 1px dashed red;
+        background-color: rgba(255, 0, 0, 0.2); */
+    }
+    
+    #confirm-shutdown {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: auto;   /* 自動根據內容寬度 */
+        min-width: 220px;
+        background: #a9b7a2;
+        border: 2px solid #1f1f1f;
+        box-shadow: 4px 4px #808080;
+        z-index: 20;
+    }
+
+    #confirm-shutdown .title-bar {
+        background: #8b3f3f; /* 改成紅棕色表示 Warning */
+        color: #fff0f0;
+    }
+
+    #confirm-shutdown .content {
+        padding: 16px;
+        height: auto;
+        background: #dcd8c4;
+        color: #1f1f1f;
+        font-size: 14px;
+    }
+
+
+    #confirm-shutdown .content button {
+        margin-right: 8px;
+        margin-top: 8px;
+    }
+
+
+    /* ===== 倒影 ===== */
+    
+    #shadow {
+        position: absolute;
+        left: 50%;
+        top: 15%;  
+        transform: translateX(-50%); /* 水平置中 */
+        margin: auto;
+        width: 500px; /* 大小調整 */
+        opacity: 0;
+        z-index: 10;
+        transition: opacity 1s ease;
+        pointer-events: none;
+        filter: blur(1px); /* 毛邊感 */
+    }
+
+    @keyframes flash {
+        0% { opacity: 1; }
+        20% { opacity: 0.3; }
+        40% { opacity: 1; }
+        60% { opacity: 0.5; }
+        80% { opacity: 1; }
+        100% { opacity: 1; }
+    }
+
+
+    @keyframes ultraFastShake {
+        0%   { transform: translateX(-50%) translateY(0) rotate(0deg); }
+        25%  { transform: translateX(-50%) translateY(-0.5px) rotate(0.2deg); }
+        50%  { transform: translateX(-50%) translateY(0.5px) rotate(-0.2deg); }
+        75%  { transform: translateX(-50%) translateY(-0.2px) rotate(0.1deg); }
+        100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+    }
+
+    #thanks {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Unifont', monospace;
+        font-size: 20px;
+        color: #eae6d5;
+        opacity: 0;
+        z-index: 30;
+        transition: opacity 1s ease;
+    }
+
+    @keyframes tvOff {
+        0% { transform: translateX(-50%) scaleY(1) scaleX(1); opacity: 1; }
+        50% { transform: translateX(-50%) scaleY(0.05) scaleX(1.2); opacity: 1; }
+        100% { transform: translateX(-50%) scaleY(0) scaleX(0); opacity: 0; }
+    }
+
+    #restart-btn {
+        position: absolute;
+        bottom: 21%;  /* 距螢幕底部 */
+        right: 23%;   /* 距螢幕右側 */
+        z-index: 31;
+        cursor: pointer;
+        display: none;  
+    }
+
+    #restart-btn img {
+        width: 75px;
+        height: auto;
+    }
+
+
+  </style>
+</head>
+
+<body>
+  <div class="screen">
+    <img src="images/desktop.png" class="bg" alt="desktop background" />
+
+    
+    <!-- 資料夾 ICON -->
+    <div class="icon" id="icon1" onclick="openWindow('win1')">
+      <img src="images/folder.png" alt="folder" />
+      <span>SMART CROSSWALK</span>
+    </div>
+
+    <div class="icon" id="icon2" onclick="openWindow('win2')">
+      <img src="images/folder.png" alt="folder" />
+      <span>MOBILE LAB</span>
+    </div>
+
+    <div class="icon" id="icon3" onclick="openWindow('win3')">
+      <img src="images/folder.png" alt="folder" />
+      <span>ARDUINO</span>
+    </div>
+
+    <div class="icon" id="icon4" onclick="openWindow('win4')">
+      <img src="images/folder.png" alt="folder" />
+      <span>LEARNING RECORD</span>
+    </div>
+
+    <div class="icon" id="icon5" onclick="openWindow('win5')">
+      <img src="images/folder.png" alt="folder" />
+      <span>Olala</span>
+    </div>
+
+    <div class="icon" id="icon6" onclick="openWindow('win6')">
+        <img src="images/trash_bin.png" alt="trash_bin" />
+        
+    </div>
+
+    <!-- 彈出視窗們 -->
+    <div class="window" id="win1">
+      <div class="title-bar">
+        <span>SMART CROSSWALK</span>
+        <button onclick="closeWindow('win1')">X</button>
+      </div>
+      <div class="content">
+        <p><strong>專題簡介：</strong><br>
+          使用 Arduino 超聲波感測器搭配 Python YOLO 影像辨識，判斷路口是否有行人，並動態控制行人號誌燈，確保安全通行。<br>
+          同時將號誌紀錄存入 MySQL，並以 Flask 提供查詢頁面與統計圖表。
+        </p>
+    
+        <p><strong>我的角色：</strong><br>
+          負責號誌燈模擬、資料庫串接、統計頁面開發與前端呈現設計。
+        </p>
+    
+        <p><strong>使用技術：</strong><br>
+          Arduino / Python (OpenCV, YOLO) / Flask / MySQL
+        </p>
+        
+        <br>
+        <p><strong>系統畫面截圖：</strong></p>
+
+          <div class="img-row">
+            <img src="images/SR-04.png" alt="SR-04">
+            <span>SR-04 超聲波感測器接線圖</span>
+          </div>
+
+          <div class="img-row">
+            <img src="images/無行人.png" alt="No Pedestrian">
+            <span>無行人時號誌狀態</span>
+          </div>
+
+          <div class="img-row">
+            <img src="images/有行人.png" alt="Pedestrian Detected">
+            <span>偵測到行人時號誌狀態</span>
+          </div>
+
+          <div class="img-row">
+            <img src="images/資料庫.png" alt="MySQL">
+            <span>MySQL 資料庫紀錄</span>
+          </div>
+
+          <div class="img-row">
+            <img src="images/即時燈號狀態.png" alt="Signal Status">
+            <span>即時燈號狀態顯示</span>
+          </div>
+
+          <div class="img-row">
+            <img src="images/燈號統計歷史柱狀圖.png" alt="History Bar Chart">
+            <span>燈號歷史統計柱狀圖</span>
+          </div>
+
+        <br>  
+        <p>
+          📄 <a href="files/Smart Crosswalk 簡介.pdf" target="_blank">下載專題概要 (PDF)</a><br><br>
+          🐍 <a href="https://github.com/swenyuuu/concept-of-smart-crosswalk.git" target="_blank">查看完整原始碼 (GitHub)</a>
+        </p>
+        
+        <br>
+        <p><strong>製作筆記：</strong></p>
+        <p>
+          這個專題是和同學一起完成的 AIoT 智慧路口號誌燈系統，整體由感測器、影像辨識、後端與前端等部分組成。<br>
+          我主要負責號誌燈的模擬流程、資料庫的串接，以及統計圖表與前端介面設計。<br>
+          原本我打算直接執行組員寫好的 Python 主程式來偵測監視器畫面並變換燈號，但因為我自己的電腦效能較低、記憶體不足，無法順利執行主程式。<br>
+          為了不耽誤進度，我改用自行模擬的方式，先用每五秒變換一次號誌燈的邏輯，將燈號資料寫入資料庫，再把前端的統計圖表與畫面串接完成。<br>
+          最後由組員將我寫好的模擬程式與主程式整合，在組員的電腦上順利執行完整流程，成功把影像偵測結果與號誌燈狀態記錄到資料庫裡。<br>
+          這段經驗讓我學到，遇到限制時可以用替代方案先模擬流程，也體會到和組員協作、把各自完成的模組整合起來的重要性。
+        </p>
+
+      </div>
+    </div>
+
+    <div class="window" id="win2">
+      <div class="title-bar">
+        <span>MOBILE LAB</span>
+        <button onclick="closeWindow('win2')">X</button>
+      </div>
+      <div class="content">
+        <p><strong>作品簡介：</strong><br>
+          使用 Thunkable 開發簡易工具型 App，具備以下功能：
+        </p>
+        <ul>
+          <li>使用者可輸入資料，並即時更新顯示結果</li>
+          <li>使用 Label、Text Input、Button 等元件製作互動介面</li>
+          <li>強調手機介面與即時性互動體驗</li>
+        </ul>
+        
+        <p><strong>設計重點：</strong><br>
+          - 練習使用 Thunkable 的基本元件組合與邏輯設定<br>
+          - 掌握介面排版與使用者輸入/輸出的操作流程
+        </p>
+        <br>
+        <p><strong> 介面操作影片：</strong><br>
+        示範 Thunkable App 操作
+        </p>
+        <div>  
+          <iframe width="100%" height="315"
+            src="https://www.youtube.com/embed/k35VoGJLO7c"
+            title="Thunkable Demo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <br>
+        <p><strong>功能 Blocks 截圖：</strong><br>
+        點擊圖片可放大查看 Blocks 設計。
+        </p>
+        
+        <div class="blocks-gallery">
+          <img src="images/block1.png" alt="Block 1" onclick="openLightbox('images/block1.png')">
+          <img src="images/block2.png" alt="Block 2" onclick="openLightbox('images/block2.png')">
+          <img src="images/block3.png" alt="Block 3" onclick="openLightbox('images/block3.png')">
+          <img src="images/block4.png" alt="Block 4" onclick="openLightbox('images/block4.png')">
+          <img src="images/block5.png" alt="Block 5" onclick="openLightbox('images/block5.png')">
+        </div>
+                      
+        <br>
+        <p><strong>APK 測試下載：</strong></p>
+        <p>
+          📲 <a href="files/To_infinity_and_beyond-v1-release.apk" download>下載 APK 並安裝</a><br>
+          （僅供 Android 手機安裝，需允許未知來源，請安心，僅作為課堂練習示範，無廣告、不收集個資）
+        </p>
+        
+        <br>
+        <p><strong>製作筆記：</strong></p>
+        <p>
+          這個作品是在課堂上跟著老師一步步操作完成的，主要是練習使用 Thunkable 做出簡單的手機 App。<br>
+          App 的元件擺放和部分的介面設計及 Blocks 邏輯是跟著老師的範例來做，我有依照自己的想法調整了一些介面細節。<br>
+          雖然有些功能邏輯我還沒有完全理解，但透過實際操作，對 Thunkable 的基本流程和元件使用方式有了初步認識。<br>
+          這次練習幫助我累積了後續想要自己設計 App 的想法，也讓我知道有許多地方還需要再多學習。
+        </p>
+
+      </div>
+    </div>
+    
+
+    <div class="window" id="win3">
+      <div class="title-bar">
+        <span>ARDUINO</span>
+        <button onclick="closeWindow('win3')">X</button>
+      </div>
+      <div class="content">
+        <p><strong>課堂練習：</strong><br>
+          練習 Arduino 基礎電路與程式，包含 LED 亮燈與 LCD 顯示等，<br>目的在熟悉麵包板接線與 Arduino IDE 的程式編輯。
+        </p>
+        <br>
+        <div class="img-row">
+          <video class="video-crop" controls>
+            <source src="videos/led.mp4" type="video/mp4">
+            您的瀏覽器不支援 HTML5 Video 標籤。
+          </video>
+          <span>麵包板實際接線，<br>控制 LED 閃爍</span>
+        </div>
+    
+        <div class="img-row">
+          <img src="images/led_wiring.png" alt="LED Wiring">
+          <span>LED 接線示意圖</span>
+        </div>
+
+
+        <div class="img-row">
+          <img src="images/lcd.jpg" alt="LCD">
+          <span>液晶面板顯示文字</span>
+        </div>
+    
+        <div class="img-row">
+          <img src="images/lcd_wiring.png" alt="LCD Wiring">
+          <span>LCD 接線示意圖</span>
+        </div>
+
+    
+        <p><strong>程式碼截圖：</strong><br>
+        點擊可放大查看程式內容。
+        </p>
+    
+        <div class="blocks-gallery">
+          <img src="images/led_code.png" alt="LED Code" onclick="openLightbox('images/led_code.png')">
+          <img src="images/lcd_code.png" alt="LCD Code" onclick="openLightbox('images/lcd_code.png')">
+          
+        </div>
+    
+        <p><strong>小筆記：</strong><br>
+          雖然是很基礎的練習，但學到如何用實體電路配合簡易程式控制，是專題 AIoT 智慧路口號誌燈系統開發的入門基礎。
+        </p>
+      </div>
+    </div>
+    
+
+    <div class="window" id="win4">
+      <div class="title-bar">
+        <span>LEARNING RECORD</span>
+        <button onclick="closeWindow('win4')">X</button>
+      </div>
+      <div class="content">
+        <p>一些還不太熟，但上課有稍微摸過的小紀錄。</p>
+        <!-- ✅ 模組區塊：JavaScript -->
+      <div class="module-block">
+        <p><strong>📘 JavaScript 嘗試</strong></p>
+
+        <!-- 🎬 練習展示影片 -->
+        <div class="img-row">
+          <video class="video-bmi" controls>
+            <source src="videos/BMI_calculator.mp4" type="video/mp4">
+            您的瀏覽器不支援 HTML5 Video 標籤。
+          </video>
+          <p>跟著老師練習寫的 BMI 計算器。</p>
+        </div>
+
+        <!-- 🖼️ 程式碼縮圖 -->
+        <p><strong>程式碼截圖：</strong><br>點擊圖片可放大查看</p>
+        <div class="blocks-gallery with-text">
+          <img src="images/bmi_code.png" alt="BMI Code" onclick="openLightbox('images/bmi_code.png')">
+          <span>
+            JavaScript 程式邏輯，透過 <code>prompt</code> 輸入、計算公式與 <code>innerText</code> 顯示結果。<br>
+            這是我第一次理解如何讓網頁和使用者「對話」，覺得很有意思。
+          </span>
+        </div>
+
+        <!-- 📝 補充理解 -->
+        <p><strong>這段練習讓我知道：</strong></p>
+        <ul>
+          <li>如何讓網頁跳出輸入視窗（prompt）</li>
+          <li>簡單的 BMI 計算邏輯</li>
+          <li>怎麼在網頁上即時更新結果（innerText）</li>
+        </ul>
+
+      </div>
+
+          
+        <!-- 🔹 接續原本其他項目列表 -->
+        <ul>
+          <li>😅 <strong>jQuery 有出現，但我在放空：</strong><br>
+            老師提到 jQuery 的 `$()` 可以抓網頁元素，但我當時沒有聽清楚，這一塊目前是黑箱，等我回去補。
+          </li>
+    
+          <li>🌀 <strong>Git / GitHub 的初印象：</strong><br>
+            我知道它好像是「記錄你做了什麼改動」的工具，方便協作，也能知道版本。但目前只知道要打指令、安裝軟體，細節還不懂。
+          </li>
+    
+          <li>❓ <strong>API 是什麼？我真的不懂！</strong><br>
+            老師好像有提到「可以用網址拿到資料」，例如天氣資料或圖片，但我不太懂為什麼它叫 API、該怎麼用、要放在哪。<br>
+            👉 <em>（這邊之後我會放上自己第一次成功接 API 的畫面！）</em>
+          </li>
+    
+          <li>🤖 <strong>AI影像辨識：教AI看我的手勢</strong><br>
+            上課有用 Teachable Machine 訓練模型辨識剪刀石頭布，還真的成功！<br>
+            👉 <em>（我會放一張當時訓練的畫面當紀錄）</em>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+
+    <div class="window" id="win5">
+      <div class="title-bar">
+        <span>Self</span>
+        <button onclick="closeWindow('win5')">X</button>
+      </div>
+      <div class="content">
+        <p><strong>作品簡介：</strong><br>
+          這是一個結合 Google 表單、Google Sheets 與 Google Apps Script 製作的小農產品訂購系統，解決沒有後端伺服器也能接單與管理的問題。<br>
+          系統包含「前台訂購頁」與「後台訂單管理」，並可即時將使用者輸入的訂單資料寫入 Google Sheet，同時讀取並顯示在管理表格中。
+        </p>
+        
+        <p><strong>我的角色：</strong><br>
+          自行設計介面與功能邏輯，整合 API、Google Script 與前端互動，完成整體系統建置。
+        </p>
+        
+        <p><strong>使用技術：</strong><br>
+          HTML / CSS / JavaScript / Google Sheets API / Google Apps Script
+        </p>
+        
+        <br>
+        <p><strong>操作影片示範：</strong></p>
+        <div class="media-block">
+          <video class="video-crop" controls>
+            <source src="videos/order_demo.mp4" type="video/mp4">
+            您的瀏覽器不支援 HTML5 Video。
+          </video>
+          <span>手機操作畫面示範：挑選商品 ➝ 填寫資料 ➝ 成功送出 ➝ 資料同步</span>
+        </div>
+        
+        <br>
+        <p><strong>前台畫面補充：</strong></p>
+        
+        <div class="img-row">
+          <img src="images/order_step1.jpg" alt="商品挑選畫面">
+          <span>使用者挑選商品、調整數量，畫面支援手機操作</span>
+        </div>
+        
+        <div class="img-row">
+          <img src="images/order_step2.jpg" alt="表單填寫畫面">
+          <span>填寫姓名、電話、備註後送出，系統即時顯示處理狀態</span>
+        </div>
+        
+        <br>
+        <p><strong>後台畫面截圖：</strong></p>
+        
+        <div class="img-row">
+          <img src="images/order_backend.jpg" alt="後台表格資料">
+          <span>訂單送出後，資料即時出現在表格中，無須手動處理</span>
+        </div>
+        
+        <br>
+        <p><strong>作品連結：</strong></p>
+        <p>
+          📝 <a href="https://swenyuuu.github.io/order-system/Write.html" target="_blank">前台訂購畫面（Write.html）</a><br><br>
+          📊 <a href="https://swenyuuu.github.io/order-system/Read.html" target="_blank">後台訂單管理（Read.html）</a>
+        </p>
+        
+        
+        <br>
+        <p><strong>製作筆記：</strong></p>
+        <p>
+          這份作品是我在職訓課程提及 Google 表單的基礎後，自己主動延伸實作的完整系統。<br>
+          一開始我以為前端沒辦法做到寫入資料庫，但後來發現透過 Google Script，可以把表單當作免費的資料後端。<br>
+          最大的挑戰是如何正確對應資料欄位、處理日期格式與防止空值錯誤，這也讓我更理解了資料格式與非同步請求的關係。<br>
+          雖然是自學完成，但也讓我第一次體會到「全端串接」的成就感。
+        </p>
+        
+        
+      </div>
+    </div>
+
+    <div class="window" id="win6">
+        <div class="title-bar">
+          <span>SECRET</span>
+          <button onclick="closeWindow('win6')">X</button>
+        </div>
+        <div class="content">
+          不要偷看垃圾。
+        </div>
+    </div>
+
+    <div id="confirm-shutdown" class="window">
+        <div class="title-bar">
+          <span>WARNING</span>
+          <button onclick="closeConfirm()">X</button>
+        </div>
+        <div class="content">
+          您確定要關機嗎？
+          <br><br>
+          <button onclick="confirmShutdown()">確定</button>
+          <button onclick="closeConfirm()">再逛一下</button>
+        </div>
+    </div>
+
+      <!-- Lightbox 共用容器 -->
+      <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">✕</span>
+        <img id="lightbox-img" src="">
+      </div>
+
+
+      <div id="power-btn-area"></div>
+      <img id="shadow" src="images/shadow.png" alt="shadow">
+      <div id="thanks">Thank you for playing!</div>
+      <a href="index.html" id="restart-btn">
+        <img src="images/restart_button.png" alt="Restart">
+      </a>  
+
+  </div>
+
+  <script>
+    let currentZ = 10; // 初始 z-index
+  
+    function openWindow(id) {
+      const win = document.getElementById(id);
+      win.style.display = 'block';
+      win.style.zIndex = ++currentZ;
+    }
+  
+    function closeWindow(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+  
+    // 讓所有 .window 都可以拖曳
+    function makeDraggable(el) {
+      const titleBar = el.querySelector('.title-bar');
+      let offsetX = 0, offsetY = 0, isDragging = false;
+  
+      titleBar.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        el.style.zIndex = ++currentZ;
+        offsetX = e.clientX - el.offsetLeft;
+        offsetY = e.clientY - el.offsetTop;
+        document.body.style.userSelect = "none";
+      });
+  
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+        document.body.style.userSelect = "";
+      });
+  
+      document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+          el.style.left = `${e.clientX - offsetX}px`;
+          el.style.top = `${e.clientY - offsetY}px`;
+        }
+      });
+    }
+
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      lightbox.style.display = 'flex';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').style.display = 'none';
+    }
+
+
+
+    let hasRebooted = false;
+
+        document.getElementById('power-btn-area').onclick = function() {
+        const anyWindowOpen = Array.from(document.querySelectorAll('.window'))
+            .some(win => win.style.display === 'block' && win.id !== 'confirm-shutdown');
+
+        if (anyWindowOpen) {
+            alert('請先關閉其他視窗！');
+            return;
+        }
+
+        if (!hasRebooted) {
+            // 第一次點 → 顯示確認視窗
+            document.getElementById('confirm-shutdown').style.display = 'block';
+        } else {
+            // 已 reboot → 第二次點 → TV Off & 謝謝
+            const shadow = document.getElementById('shadow');
+            shadow.style.animation = 'tvOff 1s forwards';
+
+            setTimeout(() => {
+            document.getElementById('thanks').style.opacity = '1';
+            document.getElementById('restart-btn').style.display = 'block';
+            }, 1000);
+        }
+        };
+
+        // 關掉確認視窗
+        function closeConfirm() {
+        document.getElementById('confirm-shutdown').style.display = 'none';
+        }
+
+        // 執行確定關機
+        function confirmShutdown() {
+        closeConfirm();
+        document.querySelectorAll('.icon').forEach(icon => icon.style.display = 'none');
+        hasRebooted = true;
+
+        // 黑影浮現
+        setTimeout(() => {
+            const shadow = document.getElementById('shadow');
+            shadow.style.opacity = '1';
+
+        // 先跑閃爍
+            shadow.style.animation = 'flash 1.5s';
+        // 閃爍結束後再套抖動
+            setTimeout(() => {
+              shadow.style.animation = 'ultraFastShake 0.2s infinite linear';
+            }, 1500);
+          }, 2000);
+ 
+        }
+  
+    // 初始化所有 .window
+    window.onload = () => {
+      document.querySelectorAll('.window').forEach(win => {
+        if (win.id !== 'confirm-shutdown') makeDraggable(win);
+      });
+    };
+  </script>
+  
+</body>
+</html>

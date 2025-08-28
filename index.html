@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <title>REINVENT ME</title>
+  <style>
+    body {
+      background: #2f2f2f;
+      color: white;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .crt {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') center center / cover;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .text-line {
+      font-size: 28px;
+      visibility: hidden;
+      /* Initially hidden */
+      opacity: 0;
+      transition: opacity 1s, visibility 0s, transform 1s;
+      z-index: 1;
+      letter-spacing: 0.1em;
+      font-family: 'VT323', monospace;
+    }
+
+    .grid-font {
+      font-size: 30px;
+      color: #00ff00;
+    }
+
+    .show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .error {
+      color: #00ff00;
+    }
+
+    .warning {
+      color: #ffa500;
+    }
+
+    /* 打字效果 */
+    .typing-text {
+      font-size: 36px;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid white;
+      width: 0;
+      opacity: 0;
+      animation: typing 2.5s steps(20) forwards, blink 0.7s step-end infinite;
+      animation-delay: 11s;
+      z-index: 1;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: white;
+      opacity: 0;
+      margin-top: 10px;
+      transition: opacity 1s ease;
+    }
+
+    @keyframes typing {
+      from {
+        width: 0;
+        opacity: 1;
+      }
+
+      to {
+        width: 13ch;
+        opacity: 1;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        border-color: transparent;
+      }
+    }
+
+    /* 閃爍特效 */
+    @keyframes blink-line {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .line1-blink {
+      animation: blink-line 1s infinite;
+    }
+
+    .line3-blink {
+      animation: blink-line 0.5s infinite;
+    }
+
+    .start-button {
+      margin-top: 40px;
+      padding: 10px 20px;
+      background: black;
+      color: white;
+      border: 2px solid white;
+      font-family: 'Courier New', monospace;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 1s ease, visibility 0s linear 1s;
+      /*  transition 延遲讓它配合出場 */
+
+    }
+
+    .start-button:hover {
+      background: white;
+      color: black;
+      border: 2px solid black;
+    }
+
+    .blink-arrow {
+      animation: blink-arrow 2s infinite;
+    }
+
+    @keyframes blink-arrow {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    /* 調整line1顯示位置，使用absolute定位 */
+    #line1 {
+      position: absolute;
+      top: 35%;
+      /* 根據需要調整位置 */
+    }
+  </style>
+  
+</head>
+
+<body>
+  <div class="crt"></div>
+  <p id="line1" class="text-line grid-font">Initializing Reboot Sequence<span class="line1-blink">...</span></p>
+  <p id="line2" class="text-line error">SYSTEM ERROR: Unidentified_Breakdown</p>
+  <p id="line3" class="text-line warning">WARNING: Memory Overload!!</p>
+  <h1 id="title" class="typing-text">REINVENT ME: </h1>
+  <p id="subtitle" class="subtitle">《人生重塑模擬器》</p>
+  <button id="startBtn" class="start-button blink-arrow" onclick=" location.href='ID.html'">▶ Start
+    Simulation</button>
+
+  <script>
+    const line1 = document.getElementById("line1");
+    const line2 = document.getElementById("line2");
+    const line3 = document.getElementById("line3");
+    const title = document.getElementById("title");
+    const subtitle = document.getElementById("subtitle");
+    const startBtn = document.getElementById("startBtn");
+
+    // 第二段出現與淡出
+    setTimeout(() => {
+      line2.classList.add("show");
+    }, 500); // 開始顯示line2
+    setTimeout(() => {
+      line2.classList.remove("show");
+    }, 4500); // 3.5秒後淡出line2
+
+    // 第三段出現與淡出
+    setTimeout(() => {
+      line3.classList.add("show", "line3-blink"); // 加入閃爍特效
+    }, 5000); // 開始顯示line3
+    setTimeout(() => {
+      line3.classList.remove("show", "line3-blink"); // 移除顯示並停止閃爍
+    }, 8500); // 3.5秒後淡出line3
+
+    // 第一段出現與淡出
+    setTimeout(() => {
+      line1.classList.add("show"); // 顯示line1，沒有閃爍效果
+    }, 9000); // 開始顯示line1
+    setTimeout(() => {
+      line1.classList.remove("show"); // 移除顯示
+    }, 13000); // 4秒後淡出line1
+
+    // 標題與副標題進場
+    setTimeout(() => {
+      title.style.opacity = 1;
+    }, 13500); // 延遲顯示標題
+    setTimeout(() => {
+      subtitle.style.opacity = 1;
+    }, 14000); // 延遲顯示副標題
+    setTimeout(() => {
+      startBtn.style.visibility = "visible"; // 👈 加這行
+      startBtn.style.opacity = 1;
+    }, 14200); // 延遲顯示按鈕
+  </script>
+</body>
+
+</html>

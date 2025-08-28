@@ -1,0 +1,12 @@
+# 作業系統垃圾檔
+.DS_Store
+Thumbs.db
+
+# VSCode 個人設定
+.vscode/
+
+# 紀錄檔
+*.log
+
+# Node.js 套件（如果未來有用 npm）
+node_modules/
