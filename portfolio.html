@@ -336,7 +336,34 @@
         height: auto;
     }
 
+    /*縮圖hover*/
+    .img-hover-container {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .img-hover-container img {
+      display: block;
+    }
 
+    .img-hover-container .hover-text {
+      position: absolute;
+      top: 50%;       /* 垂直置中 */
+      left: 50%;      /* 水平置中 */
+      transform: translate(-50%, -50%); /* 修正基準點 */
+      font-size: 24px; /* 大小 */
+      color: white;
+      opacity: 0;              /* 預設隱藏 */
+      transition: opacity 0.3s;  /* 滑過時變亮 */
+    }
+
+    
+    .img-hover-container:hover .hover-text {
+      opacity: 1; /* 滑過時更清楚 */
+    }
+
+    
+    
   </style>
 </head>
 
@@ -645,51 +672,54 @@
       <!-- 📘 Git / GitHub 練習 module-block -->
       <div class="module-block">
         <p><strong>📘 Git / GitHub 練習</strong></p>
-        <!-- test push for screenshot -->
+
+        <!-- 🧭 Git Workflow -->
+        <p><strong>我使用的最小 Git 工作流程：</strong><br>
+          透過 <code>git add → git commit → git push</code> 管理版本，首次建專案時再加上初始化與綁定步驟。</p>
+          
+          <!-- 流程圖展示 -->
+          <div class="blocks-gallery with-text">
+            <div class="img-hover-container" onclick="openLightbox('images/git_minimal_workflow.png')">
+              <img src="images/git_minimal_workflow.png" alt="Git Minimal Workflow">
+              <div class="hover-text">🔍</div>
+            </div>
+            <span>Git 最小工作流程（左：第一次建專案，右：日常更新）</span>
+          </div>
+
+        <!-- 🌐 GitHub Pages Deployment -->
+        <p><strong>GitHub Pages（靜態網站部署）：</strong><br>
+          設定一次後，每次 <code>push</code> 就會自動更新網站。</p>
+          
+          <!-- 流程圖展示 -->
+          <div class="blocks-gallery with-text">
+            <div class="img-hover-container" onclick="openLightbox('images/github_pages_workflow.png')">
+              <img src="images/github_pages_workflow.png" alt="GitHub Pages Workflow">
+              <div class="hover-text">🔍</div>
+            </div>   
+            <span>GitHub Pages 部署流程（設定 ➝ 分支 ➝ URL ➝ 自動更新）</span>
+          </div>
+  
         <!-- 🎬 終端機 push 截圖（可點放大） -->
-        <p><strong>Push 成功截圖：</strong><br>點擊圖片可放大查看</p>
+        <p><strong>Push 成功紀錄：</strong></p>
         <div class="blocks-gallery with-text">
-          <img src="images/git_push.png" alt="git push screenshot" onclick="openLightbox('images/git_push.png')">
+          <div class="img-hover-container" onclick="openLightbox('images/git_push.png')">
+            <img src="images/git_push.png" alt="git push screenshot">
+            <div class="hover-text">🔍</div>
+          </div>  
           <span>
             第一次把本機的修改 <code>git push</code> 到 GitHub，並觸發 GitHub Pages 更新。<br>
-            （帳號驗證使用 Personal Access Token）
           </span>
         </div>
 
-        <!-- 🧭 我使用的最小工作流程 -->
-        <p><strong>我使用的最小工作流程（Single-Developer）：</strong></p>
+        <!-- 📝 學習心得 -->
+        <p><strong>學習心得：</strong></p>
         <ul>
-          <li><code>git init</code> ➝ 在專案資料夾初始化版本控制</li>
-          <li><code>git add .</code> ➝ 把所有修改加入暫存區</li>
-          <li><code>git commit -m "描述這次改了什麼"</code> ➝ 存成一個可回溯的版本</li>
-          <li><code>git branch -M main</code> ➝ 把預設分支改成 main（如果需要）</li>
-          <li><code>git remote add origin https://github.com/你的帳號/你的repo.git</code></li>
-          <li><code>git push -u origin main</code> ➝ 推上 GitHub 並建立追蹤</li>
-          <li>之後更新就用 <code>git add</code> → <code>git commit</code> → <code>git push</code></li>
+          <li>一開始不懂為什麼 <code>git add .</code> 沒有任何訊息，後來才知道它是「安靜成功」，要用 <code>git status</code> 來確認。</li>
+          <li>只會更新有改動過的檔案，所以看到 GitHub repo 裡只有 portfolio.html 有變動是正常的。</li>
+          <li>第一次成功 push 並截圖下來，對我來說是重要的里程碑，讓我更確定自己能掌握版本控制流程。</li>
+          <li>學會用 <code>git log -1 --oneline</code> 檢查最新 commit，能快速確認 push 是否完成。</li>
         </ul>
 
-        <!-- 🌐 GitHub Pages 部署步驟（純前端靜態站） -->
-        <p><strong>GitHub Pages（靜態網站部署）：</strong></p>
-        <ul>
-          <li>Repo 設定 ➝ <em>Settings &gt; Pages</em> ➝ Source 選 <code>Deploy from a branch</code></li>
-          <li>Branch 選 <code>main</code>、資料夾選 <code>/root</code>（或 <code>/docs</code> 視結構而定）</li>
-          <li>按下儲存後會生成公開網址，之後每次 <code>push</code> 會自動更新</li>
-        </ul>
-
-        <!-- 🧰 小教訓（簡短心得） -->
-        <p><strong>小教訓：</strong></p>
-        <ul>
-          <li>若遇到密碼驗證失敗：改用 Personal Access Token 當密碼</li>
-          <li>Commit 訊息清楚可讀（像日誌），之後回溯比較不會痛苦</li>
-          <li>Pages 更新有時需等待一兩分鐘，刷新前先看 Repo 的 <em>Actions</em> 有沒有錯誤</li>
-        </ul>
-
-        <!-- ✅ 我現在會了 -->
-        <p><strong>我現在會了：</strong></p>
-        <ul>
-          <li>可以把本機修改版控、推上 GitHub，並部署成 GitHub Pages</li>
-          <li>能用最小指令集完成「修改 → 版本化 → 上線」的循環</li>
-        </ul>
       </div>
 
 
