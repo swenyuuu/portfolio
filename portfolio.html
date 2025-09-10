@@ -574,7 +574,8 @@
       </div>
       <div class="content">
         <p>一些還不太熟，但上課有稍微摸過的小紀錄。</p>
-        <!-- ✅ 模組區塊：JavaScript -->
+
+      <!-- ✅ 模組區塊：JavaScript -->
       <div class="module-block">
         <p><strong>📘 JavaScript 嘗試</strong></p>
 
@@ -606,17 +607,97 @@
         </ul>
 
       </div>
+        
+      <!-- 📘 JSON 資料查詢練習 module-block -->
+      <div class="module-block">
+        <p><strong>📘 JSON 資料查詢練習</strong></p>
+      
+        <!-- 🎬 截圖展示 -->
+        <div class="img-row">
+          <img src="images/json_query.png" alt="JSON Query Screenshot">
+          <span>區域 + 關鍵字篩選的結果畫面</span>
+        </div>
+      
+        <!-- 🖼️ 程式碼縮圖 -->
+        <p><strong>程式碼截圖：</strong><br>點擊圖片可放大查看</p>
+        <div class="blocks-gallery with-text">
+          <img src="images/json_code.png" alt="JSON Code" onclick="openLightbox('images/json_code.png')">
+          <span>
+            使用 <code>fetch()</code> 讀取 JSON，搭配 <code>filter()</code> 與 <code>map()</code> 篩選、渲染店家清單。<br>
+            顯示攤名、電話（可點擊）、地址與 Google Maps 連結。
+          </span>
+        </div>
+      
+        <!-- 📝 學習收穫 -->
+        <p><strong>這段練習讓我知道：</strong></p>
+        <ul>
+          <li>如何讀取外部 JSON 資料並解析</li>
+          <li>用 JavaScript <code>filter()</code> 依條件篩選結果</li>
+          <li>透過 innerHTML 動態生成清單項目</li>
+          <li>前端可以把「資料 ➝ 處理 ➝ 呈現」完整串起來</li>
+        </ul>
+      
+        <p>
+          🌐 <a href="https://swenyuuu.github.io/json-data-filter/" target="_blank">線上展示 ➝ JSON 資料查詢系統</a>
+        </p>
+      </div>
+      
+      <!-- 📘 Git / GitHub 練習 module-block -->
+      <div class="module-block">
+        <p><strong>📘 Git / GitHub 練習</strong></p>
+        <!-- test push for screenshot -->
+        <!-- 🎬 終端機 push 截圖（可點放大） -->
+        <p><strong>Push 成功截圖：</strong><br>點擊圖片可放大查看</p>
+        <div class="blocks-gallery with-text">
+          <img src="images/git_push.png" alt="git push screenshot" onclick="openLightbox('images/git_push.png')">
+          <span>
+            第一次把本機的修改 <code>git push</code> 到 GitHub，並觸發 GitHub Pages 更新。<br>
+            （帳號驗證使用 Personal Access Token）
+          </span>
+        </div>
+
+        <!-- 🧭 我使用的最小工作流程 -->
+        <p><strong>我使用的最小工作流程（Single-Developer）：</strong></p>
+        <ul>
+          <li><code>git init</code> ➝ 在專案資料夾初始化版本控制</li>
+          <li><code>git add .</code> ➝ 把所有修改加入暫存區</li>
+          <li><code>git commit -m "描述這次改了什麼"</code> ➝ 存成一個可回溯的版本</li>
+          <li><code>git branch -M main</code> ➝ 把預設分支改成 main（如果需要）</li>
+          <li><code>git remote add origin https://github.com/你的帳號/你的repo.git</code></li>
+          <li><code>git push -u origin main</code> ➝ 推上 GitHub 並建立追蹤</li>
+          <li>之後更新就用 <code>git add</code> → <code>git commit</code> → <code>git push</code></li>
+        </ul>
+
+        <!-- 🌐 GitHub Pages 部署步驟（純前端靜態站） -->
+        <p><strong>GitHub Pages（靜態網站部署）：</strong></p>
+        <ul>
+          <li>Repo 設定 ➝ <em>Settings &gt; Pages</em> ➝ Source 選 <code>Deploy from a branch</code></li>
+          <li>Branch 選 <code>main</code>、資料夾選 <code>/root</code>（或 <code>/docs</code> 視結構而定）</li>
+          <li>按下儲存後會生成公開網址，之後每次 <code>push</code> 會自動更新</li>
+        </ul>
+
+        <!-- 🧰 小教訓（簡短心得） -->
+        <p><strong>小教訓：</strong></p>
+        <ul>
+          <li>若遇到密碼驗證失敗：改用 Personal Access Token 當密碼</li>
+          <li>Commit 訊息清楚可讀（像日誌），之後回溯比較不會痛苦</li>
+          <li>Pages 更新有時需等待一兩分鐘，刷新前先看 Repo 的 <em>Actions</em> 有沒有錯誤</li>
+        </ul>
+
+        <!-- ✅ 我現在會了 -->
+        <p><strong>我現在會了：</strong></p>
+        <ul>
+          <li>可以把本機修改版控、推上 GitHub，並部署成 GitHub Pages</li>
+          <li>能用最小指令集完成「修改 → 版本化 → 上線」的循環</li>
+        </ul>
+      </div>
+
 
           
         <!-- 🔹 接續原本其他項目列表 -->
         <ul>
-          <li>😅 <strong>jQuery 有出現，但我在放空：</strong><br>
-            老師提到 jQuery 的 `$()` 可以抓網頁元素，但我當時沒有聽清楚，這一塊目前是黑箱，等我回去補。
-          </li>
-    
-          <li>🌀 <strong>Git / GitHub 的初印象：</strong><br>
-            我知道它好像是「記錄你做了什麼改動」的工具，方便協作，也能知道版本。但目前只知道要打指令、安裝軟體，細節還不懂。
-          </li>
+          
+          
     
           <li>❓ <strong>API 是什麼？我真的不懂！</strong><br>
             老師好像有提到「可以用網址拿到資料」，例如天氣資料或圖片，但我不太懂為什麼它叫 API、該怎麼用、要放在哪。<br>
