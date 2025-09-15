@@ -632,25 +632,34 @@
           <li>簡單的 BMI 計算邏輯</li>
           <li>怎麼在網頁上即時更新結果（innerText）</li>
         </ul>
-
       </div>
         
-      <!-- 📘 JSON 資料查詢練習 module-block -->
+      <!-- 📘 JSON 資料查詢練習 -->
       <div class="module-block">
         <p><strong>📘 JSON 資料查詢練習</strong></p>
-      
-        <!-- 🎬 截圖展示 -->
-        <div class="img-row">
-          <img src="images/json_query.png" alt="JSON Query Screenshot">
-          <span>區域 + 關鍵字篩選的結果畫面</span>
-        </div>
-      
-        <!-- 🖼️ 程式碼縮圖 -->
-        <p><strong>程式碼截圖：</strong><br>點擊圖片可放大查看</p>
+
+        <!-- 🎬 截圖展示（兩張縮圖，可點放大） -->
         <div class="blocks-gallery with-text">
-          <img src="images/json_code.png" alt="JSON Code" onclick="openLightbox('images/json_code.png')">
+          <div class="img-hover-container" onclick="openLightbox('images/json_query1.png')">
+            <img src="images/json_query1.png" alt="JSON Query Screenshot1">
+            <div class="hover-text">🔍</div>
+          </div>
+          <div class="img-hover-container" onclick="openLightbox('images/json_query2.png')">
+            <img src="images/json_query2.png" alt="JSON Query Screenshot2">
+            <div class="hover-text">🔍</div>
+          </div>
+          <span>區域＋關鍵字篩選的結果畫面（兩張範例）</span>
+        </div>
+
+        <!-- 🖼️ 程式碼縮圖（可點放大） -->
+        <p><strong>程式碼截圖：</strong></p>
+        <div class="blocks-gallery with-text">
+          <div class="img-hover-container" onclick="openLightbox('images/json_code.png')">
+            <img src="images/json_code.png" alt="JSON Code – fetch + filter + map">
+            <div class="hover-text">🔍</div>
+          </div>
           <span>
-            使用 <code>fetch()</code> 讀取 JSON，搭配 <code>filter()</code> 與 <code>map()</code> 篩選、渲染店家清單。<br>
+            使用 <code>fetch()</code> 讀取 JSON，搭配 <code>filter()</code> 與 <code>map()</code> 篩選、渲染店家清單；<br>
             顯示攤名、電話（可點擊）、地址與 Google Maps 連結。
           </span>
         </div>
@@ -723,16 +732,63 @@
       </div>
 
 
+      <!-- 🐱 API 練習 module-block -->
+      <div class="module-block">
+        <p><strong>📘 API 練習</strong></p>
+
+        <!-- 💡 基本觀念 -->
+        <p><strong>API 是什麼？</strong><br>
+          API（Application Programming Interface，應用程式介面）是一種「<em>定義好的資料交換方式</em>」。<br>
+          前端程式可以透過 API 向後端伺服器發送請求（Request），伺服器則回傳資料（Response），常見格式是 JSON。<br>
+          簡單來說，API 就是讓不同系統之間能以標準化方式溝通的橋樑。<br><br>
+          如果把它想成「<em>餐廳的菜單</em>」：前端點什麼，後端就端回什麼資料。<br>
+          在網頁裡，通常就是「用網址拿資料」，再把結果顯示出來。
+        </p>
+
+        <!-- 基本觀念流程圖 -->
+        <div class="blocks-gallery with-text">
+          <div class="img-hover-container" onclick="openLightbox('images/api_basic_concept_full.png')">
+            <img src="images/api_basic_concept_full.png" alt="API Basic Concept">
+            <div class="hover-text">🔍</div>
+          </div>
+          <span>API 基本觀念流程：Frontend → Backend → Response (JSON) → 回到 Frontend 顯示結果</span>
+        </div>
+
+        <!-- 🖼️ 程式碼縮圖 -->
+        <p><strong>程式碼截圖：</strong></p>
+        <div class="blocks-gallery with-text">
+          <div class="img-hover-container" onclick="openLightbox('images/api_cat_code.png')">
+            <img src="images/api_cat_code.png" alt="Random Cat API Code">
+            <div class="hover-text">🔍</div>
+          </div>
+          <span>從回傳陣列取 <code>data[0].url</code>，塞進 <code>&lt;img&gt;</code> 顯示。按鈕可再次呼叫 API 換圖。</span>
+        </div>
+
+        <!-- 🎬 練習展示：隨機貓咪圖片 -->
+        <p><strong>最小範例：</strong></p>
+        <div class="blocks-gallery with-text">
+          <div class="img-hover-container" onclick="openLightbox('images/api_cat_demo.png')">
+            <img src="images/api_cat_demo.png" alt="Random Cat API Demo">
+            <div class="hover-text">🔍</div>
+          </div>
+          <span>使用 <code>fetch()</code> 呼叫 <code>https://api.thecatapi.com/v1/images/search</code>，顯示隨機貓咪圖片 😸</span>
+        </div>
+
+        
+
+        <!-- 📝 學習心得 -->
+        <p><strong>學習心得：</strong></p>
+        <ul>
+          <li>理解 API = 用網址拿資料，回來的多是 JSON；比想像中直覺。</li>
+          <li>這個範例讓我把「呼叫 → 解析 → 顯示」串起來，跟我之前學的 JSON 很呼應。</li>
+          <li>也了解到還有許多實用的 API，例如天氣、匯率等，未來可以嘗試結合到作品中。</li>
+        </ul>
+      </div>
+
+
           
         <!-- 🔹 接續原本其他項目列表 -->
         <ul>
-          
-          
-    
-          <li>❓ <strong>API 是什麼？我真的不懂！</strong><br>
-            老師好像有提到「可以用網址拿到資料」，例如天氣資料或圖片，但我不太懂為什麼它叫 API、該怎麼用、要放在哪。<br>
-            👉 <em>（這邊之後我會放上自己第一次成功接 API 的畫面！）</em>
-          </li>
     
           <li>🤖 <strong>AI影像辨識：教AI看我的手勢</strong><br>
             上課有用 Teachable Machine 訓練模型辨識剪刀石頭布，還真的成功！<br>
