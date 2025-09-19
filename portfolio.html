@@ -600,11 +600,16 @@
         <button onclick="closeWindow('win4')">X</button>
       </div>
       <div class="content">
-        <p>一些還不太熟，但上課有稍微摸過的小紀錄。</p>
+        <p>這裡是一些課堂上老師講過，我回家複習的小紀錄。</p><br><br>
 
       <!-- ✅ 模組區塊：JavaScript -->
       <div class="module-block">
-        <p><strong>📘 JavaScript 嘗試</strong></p>
+        <p><strong>📐 JavaScript 基礎練習：BMI 計算</strong><br><br>
+          透過簡單的網頁互動，練習 JavaScript 的輸入與輸出。<br>
+          讓使用者輸入身高體重，程式會即時計算出 BMI 並顯示結果。<br>
+          這是我第一個把程式邏輯套用在日常生活的練習。
+        </p>
+          
 
         <!-- 🎬 練習展示影片 -->
         <div class="img-row">
@@ -616,12 +621,14 @@
         </div>
 
         <!-- 🖼️ 程式碼縮圖 -->
-        <p><strong>程式碼截圖：</strong><br>點擊圖片可放大查看</p>
+        <p><strong>程式碼截圖：</strong></p>
         <div class="blocks-gallery with-text">
-          <img src="images/bmi_code.png" alt="BMI Code" onclick="openLightbox('images/bmi_code.png')">
+          <div class="img-hover-container" onclick="openLightbox('images/bmi_code.png')">
+            <img src="images/bmi_code.png" alt="BMI Code">
+            <div class="hover-text">🔍</div>
+          </div>
           <span>
-            JavaScript 程式邏輯，透過 <code>prompt</code> 輸入、計算公式與 <code>innerText</code> 顯示結果。<br>
-            這是我第一次理解如何讓網頁和使用者「對話」，覺得很有意思。
+            JavaScript 程式邏輯，透過 <code>prompt</code> 輸入、計算公式與 <code>innerText</code> 顯示結果。
           </span>
         </div>
 
@@ -636,9 +643,14 @@
         
       <!-- 📘 JSON 資料查詢練習 -->
       <div class="module-block">
-        <p><strong>📘 JSON 資料查詢練習</strong></p>
+        <p><strong>📘 JSON 資料查詢練習</strong><br><br>
+          練習如何從 JSON 檔讀取與篩選資料。<br>
+          嘗試用關鍵字與區域條件過濾出想要的餐廳，並在網頁上顯示。<br>
+          這個過程幫助我理解「資料格式 ➝ 程式處理 ➝ 前端顯示」的流程。
+        </p>
+          
 
-        <!-- 🎬 截圖展示（兩張縮圖，可點放大） -->
+        <!-- 🎬 截圖展示 -->
         <div class="blocks-gallery with-text">
           <div class="img-hover-container" onclick="openLightbox('images/json_query1.png')">
             <img src="images/json_query1.png" alt="JSON Query Screenshot1">
@@ -648,7 +660,7 @@
             <img src="images/json_query2.png" alt="JSON Query Screenshot2">
             <div class="hover-text">🔍</div>
           </div>
-          <span>區域＋關鍵字篩選的結果畫面（兩張範例）</span>
+          <span>區域＋關鍵字篩選的結果畫面</span>
         </div>
 
         <!-- 🖼️ 程式碼縮圖（可點放大） -->
@@ -680,7 +692,12 @@
       
       <!-- 📘 Git / GitHub 練習 module-block -->
       <div class="module-block">
-        <p><strong>📘 Git / GitHub 練習</strong></p>
+        <p><strong>🌀 Git 版本控制初探</strong><br><br>
+          學習如何用 Git 管理程式碼，包含初始化、提交與推送到 GitHub。<br>
+          雖然只是最基本的操作，但讓我第一次體會到「程式碼也需要版本管理」的重要性。<br>
+          這也是我開始把作品放到 GitHub 的起點。
+        </p>
+          
 
         <!-- 🧭 Git Workflow -->
         <p><strong>我使用的最小 Git 工作流程：</strong><br>
@@ -708,7 +725,7 @@
             <span>GitHub Pages 部署流程（設定 ➝ 分支 ➝ URL ➝ 自動更新）</span>
           </div>
   
-        <!-- 🎬 終端機 push 截圖（可點放大） -->
+        <!-- 🎬 終端機 push 截圖 -->
         <p><strong>Push 成功紀錄：</strong></p>
         <div class="blocks-gallery with-text">
           <div class="img-hover-container" onclick="openLightbox('images/git_push.png')">
@@ -734,10 +751,8 @@
 
       <!-- 🐱 API 練習 module-block -->
       <div class="module-block">
-        <p><strong>📘 API 練習</strong></p>
-
+        <p><strong>📘 API 練習</strong><br><br>
         <!-- 💡 基本觀念 -->
-        <p><strong>API 是什麼？</strong><br>
           API（Application Programming Interface，應用程式介面）是一種「<em>定義好的資料交換方式</em>」。<br>
           前端程式可以透過 API 向後端伺服器發送請求（Request），伺服器則回傳資料（Response），常見格式是 JSON。<br>
           簡單來說，API 就是讓不同系統之間能以標準化方式溝通的橋樑。<br><br>
@@ -787,14 +802,100 @@
 
 
           
-        <!-- 🔹 接續原本其他項目列表 -->
+       <!-- 📘 影像互動小實驗：Mediapipe / YOLO -->
+      <div class="module-block">
+        <p><strong>📘 AI影像互動小實驗：Mediapipe / YOLO</strong><br><br>
+          這是課堂練習的，使用 Python 搭配現有的電腦視覺工具完成的 AI 影像辨識。<br>
+          我嘗試了 <strong>Mediapipe</strong>（Google 提供的套件，使用其手部骨架偵測模型並加入中指馬賽克），<br>
+          以及 <strong>YOLO</strong>（一種常用的目標偵測演算法，搭配預訓練模型進行日常物件偵測），<br>
+          用即時攝影機畫面示範電腦如何辨識手勢或物件。<br>
+          這些成果雖然不是完整專案，但幫助我理解「影像 ➝ 模型 ➝ 回饋」的流程，<br>
+          也許日後可以結合某些設計發想。
+        </p>
+          
+        <!-- ✋ Mediapipe：手部骨架 / 中指馬賽克 -->
+        <p><strong>Mediapipe 手勢偵測</strong></p>
+
+        <div class="blocks-gallery with-text">
+          <div class="img-hover-container" onclick="openLightbox('images/hand_skeleton1.png')">
+            <img src="images/hand_skeleton1.png" alt="Mediapipe Hand Landmarks1">
+            <div class="hover-text">🔍</div>
+          </div>
+          <div class="img-hover-container" onclick="openLightbox('images/hand_skeleton2.png')">
+            <img src="images/hand_skeleton2.png" alt="Mediapipe Hand Landmarks2">
+            <div class="hover-text">🔍</div>
+          </div>
+          <div class="img-hover-container" onclick="openLightbox('images/hand_skeleton3.png')">
+            <img src="images/hand_skeleton3.png" alt="Mediapipe Hand Landmarks3">
+            <div class="hover-text">🔍</div>
+          </div>
+          <span>手部關節骨架偵測示例（不同手勢）。</span>
+        </div>
+
+        <!-- 中指馬賽克 -->
+        <div class="blocks-gallery with-text">
+          <div class="img-hover-container" onclick="openLightbox('images/middle_mosaic.png')">
+            <img src="images/middle_mosaic.png" alt="Middle Finger Mosaic">
+            <div class="hover-text">🔍</div>
+          </div>
+          <span>偵測特定手勢（豎中指）時自動加上馬賽克。</span>
+        </div>
+
+        <p><strong>程式碼截圖：</strong></p>
+        <div class="blocks-gallery with-text">
+          <div class="img-hover-container" onclick="openLightbox('images/mediapipe_code.png')">
+            <img src="images/mediapipe_code.png" alt="Mediapipe Code">
+            <div class="hover-text">🔍</div>
+          </div>
+          <span>Mediapipe 偵測手部關節座標，判斷中指是否豎起；<br>若成立，呼叫 apply_mosaic 對該區域加上馬賽克。</span>
+        </div>
+
+
+        <!-- 🧰 YOLO：日常物件偵測 -->
+        <p><strong>YOLO 日常物件偵測</strong></p>
+        <div class="blocks-gallery with-text">
+          <div class="img-hover-container" onclick="openLightbox('images/yolo_phone.png')">
+            <img src="images/yolo_phone.png" alt="YOLO detects cell phone">
+            <div class="hover-text">🔍</div>
+          </div>
+          <div class="img-hover-container" onclick="openLightbox('images/yolo_apple.png')">
+            <img src="images/yolo_apple.png" alt="YOLO detects apple">
+            <div class="hover-text">🔍</div>
+          </div>
+          <div class="img-hover-container" onclick="openLightbox('images/yolo_cup.png')">
+            <img src="images/yolo_cup.png" alt="YOLO detects cup">
+            <div class="hover-text">🔍</div>
+          </div>
+          <span>用家中物件（手機 / 蘋果 / 杯子）示範模型如何即時辨識，呈現生活化的互動場景。</span>
+        </div>
+        
+        <p><strong>程式碼截圖：</strong></p>
+        <div class="blocks-gallery with-text">
+          <div class="img-hover-container" onclick="openLightbox('images/yolo_code.png')">
+            <img src="images/yolo_code.png" alt="YOLO Code">
+            <div class="hover-text">🔍</div>
+          </div>
+          <span>載入 YOLO 模型後，程式會逐幀讀取攝影機畫面，<br>呼叫 model.predict 做物件辨識，並在畫面上即時繪製框線與標籤。</span>
+        </div>
+        <!-- YOLO 影片：如果改用影片來源 -->
+        <!--
+        <div class="blocks-gallery with-text">
+          <img src="images/yolo_video_frame.png" alt="YOLO video frame" onclick="openLightbox('images/yolo_video_frame.png')">
+          <span>以影片檔為來源的偵測畫面（來源可替換為街景或室內動態場景）。</span>
+        </div>
+        -->
+
+        <!-- 📝 啟發 -->
+        <p><strong>學習心得：</strong></p>
         <ul>
-    
-          <li>🤖 <strong>AI影像辨識：教AI看我的手勢</strong><br>
-            上課有用 Teachable Machine 訓練模型辨識剪刀石頭布，還真的成功！<br>
-            👉 <em>（我會放一張當時訓練的畫面當紀錄）</em>
-          </li>
+          <li>把電腦視覺當成「輸入元件」：手勢與日常物件都能成為互動介面的一部分。</li>
+          <li>即時回饋比純辨識更重要：畫框、標籤與反饋節奏會直接影響使用者理解。</li>
+          <li>依場景選模型：Mediapipe 強於關節級互動，YOLO 擅長整體物件與多類別情境。</li>
         </ul>
+
+        <p><em>（完整專案應用請見 Smart Crosswalk 區塊）</em></p>
+      </div>
+
       </div>
     </div>
     
